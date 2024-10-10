@@ -1,5 +1,6 @@
 import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 
+
 public class Percolation {
     private final int n;                           // grid dimension
     private boolean[][] grid;                      // to keep track of open sites
