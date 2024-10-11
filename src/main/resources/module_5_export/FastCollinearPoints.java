@@ -1,108 +1,88 @@
 
 
-import edu.princeton.cs.algs4.In;
-import edu.princeton.cs.algs4.StdDraw;
-import edu.princeton.cs.algs4.StdOut;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 
+/**
+ * Class to find all segments containing 4 or more points in the given list of poitns
+ */
 public class FastCollinearPoints {
 
-    private final Point[] points;
-    private LineSegment[] segments;
+    private final LineSegment[] segments;
 
-    public FastCollinearPoints(Point[] points)     // finds all line segments containing 4 or more points
-    {
-        for (Point p : points) {
-            if (p == null) {
-                throw new IllegalArgumentException();
-            }
-        }
-
-        this.points = Arrays.copyOf(points, points.length);
-    }
-
-    public int numberOfSegments()        // the number of line segments
-    {
-        ArrayList<LineSegment> ls = new ArrayList<LineSegment>();
-        int countPointsInSegment;
-        double currentSlope;
-
-        // identify segments containing at least 4 points
-        for (Point p : points) {
-            Point[] sortedPoints = Arrays.copyOf(points, points.length);
-            Arrays.sort(sortedPoints, p.slopeOrder());
-            currentSlope = p.slopeTo(sortedPoints[1]);
-            ArrayList<Point> currentSegment = new ArrayList<Point>();
-            currentSegment.add(p);
-            currentSegment.add(sortedPoints[1]);
-            for (int i = 2; i < sortedPoints.length; i++) {
-                if (currentSlope != p.slopeTo(sortedPoints[i])) {
-                    if (currentSegment.size() >= 4) {
-                        Point[] points_tmp = currentSegment.toArray(new Point[0]);
-                        Arrays.sort(points_tmp);
-                        ls.add(new LineSegment(points_tmp[0], points_tmp[points_tmp.length - 1]));
+    /**
+     * Finds all segments containing 4 or more points in the given list of points
+     *
+     * @param points - list of points to be analyzed
+     */
+    public FastCollinearPoints(Point[] points) {
+        checkForNullPoints(points);
+        Point[] pointsCopySO = Arrays.copyOf(points, points.length);
+        Point[] pointsCopyNO = Arrays.copyOf(points, points.length);
+        ArrayList<LineSegment> segmentsList = new ArrayList<LineSegment>();
+        Arrays.sort(pointsCopyNO);
+        checkForDuplicatedPoints(pointsCopyNO);
+        for (Point origin : pointsCopyNO) {
+            Arrays.sort(pointsCopySO);
+            Arrays.sort(pointsCopySO, origin.slopeOrder());
+            int count = 1;
+            Point lineBeginning = null;
+            for (int j = 0; j < pointsCopySO.length - 1; ++j) {
+                if (pointsCopySO[j].slopeTo(origin) == pointsCopySO[j + 1].slopeTo(origin)) {
+                    count++;
+                    if (count == 2) {
+                        lineBeginning = pointsCopySO[j];
+                        count++;
+                    } else if (count >= 4 && j + 1 == pointsCopySO.length - 1) {
+                        if (lineBeginning.compareTo(origin) > 0) {
+                            segmentsList.add(new LineSegment(origin, pointsCopySO[j + 1]));
+                        }
+                        count = 1;
                     }
-                    currentSegment.clear();
-                    currentSegment.add(p);
-                    currentSlope = p.slopeTo(sortedPoints[i]);
+                } else if (count >= 4) {
+                    if (lineBeginning.compareTo(origin) > 0) {
+                        segmentsList.add(new LineSegment(origin, pointsCopySO[j]));
+                    }
+                    count = 1;
+                } else {
+                    count = 1;
                 }
-                currentSegment.add(sortedPoints[i]);
-            }
-            if (currentSegment.size() >= 4) {
-                Point[] points_tmp = currentSegment.toArray(new Point[0]);
-                Arrays.sort(points_tmp);
-                ls.add(new LineSegment(points_tmp[0], points_tmp[points_tmp.length - 1]));
             }
         }
-
-        // Remove duplicates
-        ArrayList<LineSegment> uniqueSegments = new ArrayList<>();
-        LineSegment prev = null;
-        for (LineSegment segment : ls) {
-            if (prev == null || !segment.toString().equals(prev.toString())) {
-                uniqueSegments.add(segment);
-            }
-            prev = segment;
-        }
-
-        segments = ls.toArray(new LineSegment[0]);
-        return ls.size();
+        segments = segmentsList.toArray(new LineSegment[0]);
     }
 
-    public LineSegment[] segments()                // the line segments
-    {
-        return segments;
+    /**
+     * Returns the number of segments
+     *
+     * @return number of segments containing 4 or more points
+     */
+    public int numberOfSegments() {
+        return segments.length;
     }
 
-    public static void main(String[] args) {
+    /**
+     * Returns array of segments that were discovered in the given points array
+     *
+     * @return array of discovered segments
+     */
+    public LineSegment[] segments() {
+        return Arrays.copyOf(segments, numberOfSegments());
+    }
 
-        // read the n points from a file
-        In in = new In(args[0]);
-        int n = in.readInt();
-        Point[] points = new Point[n];
-        for (int i = 0; i < n; i++) {
-            int x = in.readInt();
-            int y = in.readInt();
-            points[i] = new Point(x, y);
+    private void checkForDuplicatedPoints(Point[] points) {
+        for (int i = 0; i < points.length - 1; ++i) {
+            if (points[i].compareTo(points[i + 1]) == 0) {
+                throw new java.lang.IllegalArgumentException("Duplicated points");
+            }
         }
+    }
 
-        // draw the points
-        StdDraw.enableDoubleBuffering();
-        StdDraw.setXscale(0, 32768);
-        StdDraw.setYscale(0, 32768);
-        for (Point p : points) {
-            p.draw();
+    private void checkForNullPoints(Point[] points) {
+        for (Point point : points) {
+            if (point == null) {
+                throw new NullPointerException("At least one point in array is null");
+            }
         }
-        StdDraw.show();
-
-        // print and draw the line segments
-        FastCollinearPoints collinear = new FastCollinearPoints(points);
-        for (LineSegment segment : collinear.segments()) {
-            StdOut.println(segment);
-            segment.draw();
-        }
-        StdDraw.show();
     }
 }

@@ -1,56 +1,53 @@
 
 
-
 import java.util.ArrayList;
 import java.util.Arrays;
 
 public class BruteCollinearPoints {
+    private final LineSegment[] segments;
 
-    private final Point[] points;
-    private LineSegment[] segments;
-
-
-    public BruteCollinearPoints(Point[] points)    // finds all line segments containing 4 points
-    {
-        this.points = Arrays.copyOf(points, points.length);
-
-        for (Point p : points) {
-            if (p == null) {
-                throw new IllegalArgumentException();
-            }
-        }
-    }
-
-    public int numberOfSegments()        // the number of line segments
-    {
-
-        ArrayList<LineSegment> ls = new ArrayList<LineSegment>();
-
-        // create a list with all LineSegments that contains at least 4 points
-        for (int i = 0; i < points.length; i++) {
-            for (int j = i; j < points.length; j++) {
-                for (int k = j; k < points.length; k++) {
-                    if (points[i].slopeTo(points[j]) == points[i].slopeTo(points[k])) {
-                        break;
-                    }
-                    for (int l = k; l < points.length; l++) {
-                        if (points[i].slopeTo(points[j]) == points[k].slopeTo(points[l])) {
-                            ls.add(new LineSegment(points[i], points[l]));
+    public BruteCollinearPoints(Point[] points) {
+        if (points == null) throw new java.lang.NullPointerException("null argument to constructor");
+        checkNullEntries(points);
+        ArrayList<LineSegment> segmentsList = new ArrayList<LineSegment>();
+        Point[] pointsCopy = Arrays.copyOf(points, points.length);
+        Arrays.sort(pointsCopy);
+        checkDuplicatedEntries(pointsCopy);
+        for (int i = 0; i < (pointsCopy.length - 3); ++i)
+            for (int j = i + 1; j < (pointsCopy.length - 2); ++j)
+                for (int k = j + 1; k < (pointsCopy.length - 1); ++k)
+                    for (int l = k + 1; l < (pointsCopy.length); ++l) {
+                        if (pointsCopy[i].slopeTo(pointsCopy[j]) == pointsCopy[i].slopeTo(pointsCopy[l]) &&
+                                pointsCopy[i].slopeTo(pointsCopy[j]) == pointsCopy[i].slopeTo(pointsCopy[k])) {
+                            LineSegment tempLineSegment = new LineSegment(pointsCopy[i], pointsCopy[l]);
+                            if (!segmentsList.contains(tempLineSegment))
+                                segmentsList.add(tempLineSegment);
                         }
                     }
-                }
-            }
-        }
-
-        this.segments = ls.toArray(new LineSegment[0]);
-
-        return ls.size();
+        segments = segmentsList.toArray(new LineSegment[0]);
     }
 
-    public LineSegment[] segments()                // the line segments
-    {
+    public int numberOfSegments() {
+        return segments.length;
+    }
+
+    public LineSegment[] segments() {
         return segments;
     }
 
+    private void checkDuplicatedEntries(Point[] points) {
+        for (int i = 0; i < points.length - 1; i++) {
+            if (points[i].compareTo(points[i + 1]) == 0) {
+                throw new IllegalArgumentException("Duplicated entries in given points");
+            }
+        }
+    }
 
+    private void checkNullEntries(Point[] points) {
+        for (int i = 0; i < points.length - 1; i++) {
+            if (points[i] == null) {
+                throw new java.lang.NullPointerException("One of the point in points array is null");
+            }
+        }
+    }
 }
