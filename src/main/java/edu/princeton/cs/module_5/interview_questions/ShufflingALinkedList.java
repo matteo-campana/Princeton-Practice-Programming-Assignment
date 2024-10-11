@@ -1,4 +1,4 @@
-package edu.princeton.cs.module_5;
+package edu.princeton.cs.module_5.interview_questions;
 
 import java.util.Random;
 
