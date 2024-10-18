@@ -2,7 +2,7 @@ package edu.princeton.cs.module_8.interview_questions;
 
 import java.util.PriorityQueue;
 
-class TaxicabNumber {
+public class TaxicabNumbers {
     // Class to represent a tuple of (sum, a, b)
     static class CubeSum implements Comparable<CubeSum> {
         int sum;
