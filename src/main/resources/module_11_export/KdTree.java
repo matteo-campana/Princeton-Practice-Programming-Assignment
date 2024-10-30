@@ -1,6 +1,3 @@
-package edu.princeton.cs.module_11.programming_assignment;
-
-
 import edu.princeton.cs.algs4.Point2D;
 import edu.princeton.cs.algs4.RectHV;
 import edu.princeton.cs.algs4.StdDraw;
