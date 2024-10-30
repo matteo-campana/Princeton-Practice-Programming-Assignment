@@ -1,11 +1,11 @@
-package edu.princeton.cs.module_11.programming_assignment;
-
-
 import edu.princeton.cs.algs4.Point2D;
+import edu.princeton.cs.algs4.Queue;
 import edu.princeton.cs.algs4.RectHV;
 import edu.princeton.cs.algs4.StdDraw;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class KdTree {
@@ -44,7 +44,6 @@ public class KdTree {
 
     public void insert(Point2D p) {
         if (p == null) throw new IllegalArgumentException();
-        if (this.contains(p)) return;
         insert(p, root);
     }
 
@@ -101,7 +100,7 @@ public class KdTree {
             return node;
         }
 
-        boolean isVertical = node.depth % 2 == 0;
+        boolean isVertical = node.depth % 2 == 1;
         if ((isVertical && p.x() < node.point.x()) || (!isVertical && p.y() < node.point.y())) {
             return search(p, node.left);
         } else {
@@ -158,15 +157,15 @@ public class KdTree {
     }
 
 
-    //    private boolean doesLineIntersectRectangle(Point2D p, RectHV rect, boolean isHorizontal) {
-    //        RectHV lineRec;
-    //        if (isHorizontal) {
-    //            lineRec = new RectHV(Double.NEGATIVE_INFINITY, p.y(), Double.POSITIVE_INFINITY, p.y());
-    //        } else {
-    //            lineRec = new RectHV(p.x(), Double.NEGATIVE_INFINITY, p.x(), Double.POSITIVE_INFINITY);
-    //        }
-    //        return rect.intersects(lineRec);
-    //    }
+    private boolean doesLineIntersectRectangle(Point2D p, RectHV rect, boolean isHorizontal) {
+        RectHV lineRec;
+        if (isHorizontal) {
+            lineRec = new RectHV(Double.NEGATIVE_INFINITY, p.y(), Double.POSITIVE_INFINITY, p.y());
+        } else {
+            lineRec = new RectHV(p.x(), Double.NEGATIVE_INFINITY, p.x(), Double.POSITIVE_INFINITY);
+        }
+        return rect.intersects(lineRec);
+    }
 
 
     public Point2D nearest(Point2D p) {
