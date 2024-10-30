@@ -1,12 +1,12 @@
 package adt.tree;
 
-public class RBTree<T extends Comparable<T>> {
+public class RedBlackTree<T extends Comparable<T>> {
 
-    private static class RBTreeNode<T extends Comparable<T>> {
+    private static class RedBlackTreeNode<T extends Comparable<T>> {
         T data;
-        RBTreeNode<T> parent;
-        RBTreeNode<T> left;
-        RBTreeNode<T> right;
+        RedBlackTreeNode<T> parent;
+        RedBlackTreeNode<T> left;
+        RedBlackTreeNode<T> right;
 
         private enum Color {
             RED, BLACK
@@ -14,7 +14,7 @@ public class RBTree<T extends Comparable<T>> {
 
         Color color;
 
-        public RBTreeNode(T data, Color color, RBTreeNode<T> parent) {
+        public RedBlackTreeNode(T data, Color color, RedBlackTreeNode<T> parent) {
             this.data = data;
             this.color = color;
             this.parent = parent;
@@ -22,7 +22,7 @@ public class RBTree<T extends Comparable<T>> {
             this.right = null;
         }
 
-        public RBTreeNode(T data) {
+        public RedBlackTreeNode(T data) {
             this.data = data;
             this.parent = null;
             this.left = null;
@@ -31,20 +31,20 @@ public class RBTree<T extends Comparable<T>> {
         }
     }
 
-    private RBTreeNode<T> root;
+    private RedBlackTreeNode<T> root;
 
-    public RBTree() {
+    public RedBlackTree() {
         this.root = null;
     }
 
     public void insert(T data) {
-        RBTreeNode<T> newNode = new RBTreeNode<T>(data);
+        RedBlackTreeNode<T> newNode = new RedBlackTreeNode<T>(data);
         if (root == null) {
             root = newNode;
-            root.color = RBTreeNode.Color.BLACK;
+            root.color = RedBlackTreeNode.Color.BLACK;
         } else {
-            RBTreeNode<T> current = root;
-            RBTreeNode<T> parent = null;
+            RedBlackTreeNode<T> current = root;
+            RedBlackTreeNode<T> parent = null;
             while (current != null) {
                 parent = current;
                 if (data.compareTo(current.data) < 0) {
@@ -66,47 +66,47 @@ public class RBTree<T extends Comparable<T>> {
         }
     }
 
-    private void rebalanceInsert(RBTreeNode<T> node) {
-        while (node != root && node.parent.color == RBTreeNode.Color.RED) {
+    private void rebalanceInsert(RedBlackTreeNode<T> node) {
+        while (node != root && node.parent.color == RedBlackTreeNode.Color.RED) {
             if (node.parent == node.parent.parent.left) {
-                RBTreeNode<T> uncle = node.parent.parent.right;
-                if (uncle != null && uncle.color == RBTreeNode.Color.RED) {
-                    node.parent.color = RBTreeNode.Color.BLACK;
-                    uncle.color = RBTreeNode.Color.BLACK;
-                    node.parent.parent.color = RBTreeNode.Color.RED;
+                RedBlackTreeNode<T> uncle = node.parent.parent.right;
+                if (uncle != null && uncle.color == RedBlackTreeNode.Color.RED) {
+                    node.parent.color = RedBlackTreeNode.Color.BLACK;
+                    uncle.color = RedBlackTreeNode.Color.BLACK;
+                    node.parent.parent.color = RedBlackTreeNode.Color.RED;
                     node = node.parent.parent;
                 } else {
                     if (node == node.parent.right) {
                         node = node.parent;
                         rotateLeft(node);
                     }
-                    node.parent.color = RBTreeNode.Color.BLACK;
-                    node.parent.parent.color = RBTreeNode.Color.RED;
+                    node.parent.color = RedBlackTreeNode.Color.BLACK;
+                    node.parent.parent.color = RedBlackTreeNode.Color.RED;
                     rotateRight(node.parent.parent);
                 }
             } else {
-                RBTreeNode<T> uncle = node.parent.parent.left;
-                if (uncle != null && uncle.color == RBTreeNode.Color.RED) {
-                    node.parent.color = RBTreeNode.Color.BLACK;
-                    uncle.color = RBTreeNode.Color.BLACK;
-                    node.parent.parent.color = RBTreeNode.Color.RED;
+                RedBlackTreeNode<T> uncle = node.parent.parent.left;
+                if (uncle != null && uncle.color == RedBlackTreeNode.Color.RED) {
+                    node.parent.color = RedBlackTreeNode.Color.BLACK;
+                    uncle.color = RedBlackTreeNode.Color.BLACK;
+                    node.parent.parent.color = RedBlackTreeNode.Color.RED;
                     node = node.parent.parent;
                 } else {
                     if (node == node.parent.left) {
                         node = node.parent;
                         rotateRight(node);
                     }
-                    node.parent.color = RBTreeNode.Color.BLACK;
-                    node.parent.parent.color = RBTreeNode.Color.RED;
+                    node.parent.color = RedBlackTreeNode.Color.BLACK;
+                    node.parent.parent.color = RedBlackTreeNode.Color.RED;
                     rotateLeft(node);
                 }
             }
         }
-        root.color = RBTreeNode.Color.BLACK;
+        root.color = RedBlackTreeNode.Color.BLACK;
     }
 
-    private void rotateRight(RBTreeNode<T> node) {
-        RBTreeNode<T> leftChild = node.left;
+    private void rotateRight(RedBlackTreeNode<T> node) {
+        RedBlackTreeNode<T> leftChild = node.left;
         node.left = leftChild.right;
         if (leftChild.right != null) {
             leftChild.right.parent = node;
@@ -123,8 +123,8 @@ public class RBTree<T extends Comparable<T>> {
         node.parent = leftChild;
     }
 
-    private void rotateLeft(RBTreeNode<T> node) {
-        RBTreeNode<T> rightChild = node.right;
+    private void rotateLeft(RedBlackTreeNode<T> node) {
+        RedBlackTreeNode<T> rightChild = node.right;
         node.right = rightChild.left;
         if (rightChild.left != null) {
             rightChild.left.parent = node;
@@ -142,12 +142,12 @@ public class RBTree<T extends Comparable<T>> {
     }
 
     public void delete(T data) {
-        RBTreeNode<T> node = search(root, data);
+        RedBlackTreeNode<T> node = search(root, data);
         if (node == null) return;
 
-        RBTreeNode<T> y = node;
-        RBTreeNode<T> x;
-        RBTreeNode.Color originalColor = y.color;
+        RedBlackTreeNode<T> y = node;
+        RedBlackTreeNode<T> x;
+        RedBlackTreeNode.Color originalColor = y.color;
 
         if (node.left == null) {
             x = node.right;
@@ -172,69 +172,69 @@ public class RBTree<T extends Comparable<T>> {
             y.color = node.color;
         }
 
-        if (originalColor == RBTreeNode.Color.BLACK) {
+        if (originalColor == RedBlackTreeNode.Color.BLACK) {
             rebalanceDelete(x);
         }
     }
 
-    private void rebalanceDelete(RBTreeNode<T> x) {
-        while (x != root && (x == null || x.color == RBTreeNode.Color.BLACK)) {
+    private void rebalanceDelete(RedBlackTreeNode<T> x) {
+        while (x != root && (x == null || x.color == RedBlackTreeNode.Color.BLACK)) {
             if (x == x.parent.left) {
-                RBTreeNode<T> w = x.parent.right;
-                if (w.color == RBTreeNode.Color.RED) {
-                    w.color = RBTreeNode.Color.BLACK;
-                    x.parent.color = RBTreeNode.Color.RED;
+                RedBlackTreeNode<T> w = x.parent.right;
+                if (w.color == RedBlackTreeNode.Color.RED) {
+                    w.color = RedBlackTreeNode.Color.BLACK;
+                    x.parent.color = RedBlackTreeNode.Color.RED;
                     rotateLeft(x.parent);
                     w = x.parent.right;
                 }
-                if ((w.left == null || w.left.color == RBTreeNode.Color.BLACK) &&
-                        (w.right == null || w.right.color == RBTreeNode.Color.BLACK)) {
-                    w.color = RBTreeNode.Color.RED;
+                if ((w.left == null || w.left.color == RedBlackTreeNode.Color.BLACK) &&
+                        (w.right == null || w.right.color == RedBlackTreeNode.Color.BLACK)) {
+                    w.color = RedBlackTreeNode.Color.RED;
                     x = x.parent;
                 } else {
-                    if (w.right == null || w.right.color == RBTreeNode.Color.BLACK) {
-                        if (w.left != null) w.left.color = RBTreeNode.Color.BLACK;
-                        w.color = RBTreeNode.Color.RED;
+                    if (w.right == null || w.right.color == RedBlackTreeNode.Color.BLACK) {
+                        if (w.left != null) w.left.color = RedBlackTreeNode.Color.BLACK;
+                        w.color = RedBlackTreeNode.Color.RED;
                         rotateRight(w);
                         w = x.parent.right;
                     }
                     w.color = x.parent.color;
-                    x.parent.color = RBTreeNode.Color.BLACK;
-                    if (w.right != null) w.right.color = RBTreeNode.Color.BLACK;
+                    x.parent.color = RedBlackTreeNode.Color.BLACK;
+                    if (w.right != null) w.right.color = RedBlackTreeNode.Color.BLACK;
                     rotateLeft(x.parent);
                     x = root;
                 }
             } else {
-                RBTreeNode<T> w = x.parent.left;
-                if (w.color == RBTreeNode.Color.RED) {
-                    w.color = RBTreeNode.Color.BLACK;
-                    x.parent.color = RBTreeNode.Color.RED;
+                RedBlackTreeNode<T> w = x.parent.left;
+                if (w.color == RedBlackTreeNode.Color.RED) {
+                    w.color = RedBlackTreeNode.Color.BLACK;
+                    x.parent.color = RedBlackTreeNode.Color.RED;
                     rotateRight(x.parent);
                     w = x.parent.left;
                 }
-                if ((w.right == null || w.right.color == RBTreeNode.Color.BLACK) &&
-                        (w.left == null || w.left.color == RBTreeNode.Color.BLACK)) {
-                    w.color = RBTreeNode.Color.RED;
+                if ((w.right == null || w.right.color == RedBlackTreeNode.Color.BLACK) &&
+                        (w.left == null || w.left.color == RedBlackTreeNode.Color.BLACK)) {
+                    w.color = RedBlackTreeNode.Color.RED;
                     x = x.parent;
                 } else {
-                    if (w.left == null || w.left.color == RBTreeNode.Color.BLACK) {
-                        if (w.right != null) w.right.color = RBTreeNode.Color.BLACK;
-                        w.color = RBTreeNode.Color.RED;
+                    if (w.left == null || w.left.color == RedBlackTreeNode.Color.BLACK) {
+                        if (w.right != null) w.right.color = RedBlackTreeNode.Color.BLACK;
+                        w.color = RedBlackTreeNode.Color.RED;
                         rotateLeft(w);
                         w = x.parent.left;
                     }
                     w.color = x.parent.color;
-                    x.parent.color = RBTreeNode.Color.BLACK;
-                    if (w.left != null) w.left.color = RBTreeNode.Color.BLACK;
+                    x.parent.color = RedBlackTreeNode.Color.BLACK;
+                    if (w.left != null) w.left.color = RedBlackTreeNode.Color.BLACK;
                     rotateRight(x.parent);
                     x = root;
                 }
             }
         }
-        if (x != null) x.color = RBTreeNode.Color.BLACK;
+        if (x != null) x.color = RedBlackTreeNode.Color.BLACK;
     }
 
-    private void transplant(RBTreeNode<T> u, RBTreeNode<T> v) {
+    private void transplant(RedBlackTreeNode<T> u, RedBlackTreeNode<T> v) {
         if (u.parent == null) {
             root = v;
         } else if (u == u.parent.left) {
@@ -247,14 +247,14 @@ public class RBTree<T extends Comparable<T>> {
         }
     }
 
-    private RBTreeNode<T> minimum(RBTreeNode<T> node) {
+    private RedBlackTreeNode<T> minimum(RedBlackTreeNode<T> node) {
         while (node.left != null) {
             node = node.left;
         }
         return node;
     }
 
-    private RBTreeNode<T> search(RBTreeNode<T> node, T data) {
+    private RedBlackTreeNode<T> search(RedBlackTreeNode<T> node, T data) {
         while (node != null && data.compareTo(node.data) != 0) {
             if (data.compareTo(node.data) < 0) {
                 node = node.left;

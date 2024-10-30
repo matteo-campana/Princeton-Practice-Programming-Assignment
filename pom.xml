@@ -8,10 +8,46 @@
     <artifactId>princeton-practice-programming-assignment</artifactId>
     <version>1.0-SNAPSHOT</version>
 
+    <licenses>
+        <license>
+            <name>GNU General Public License 3</name>
+            <url>http://www.gnu.org/licenses/gpl-3.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <id>mcampana</id>
+            <name>Matteo Campana</name>
+            <url>https://www.linkedin.com/in/matteo-campana/</url>
+            <roles>
+                <role>author</role>
+            </roles>
+        </developer>
+    </developers>
+
     <properties>
         <maven.compiler.source>22</maven.compiler.source>
         <maven.compiler.target>22</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
+
+
+    <repositories>
+        <repository>
+            <id>princeton-algorithms-repo</id>
+            <url>https://repo1.maven.org/maven2/</url>
+        </repository>
+    </repositories>
+
+    <dependencies>
+        <!-- https://mvnrepository.com/artifact/com.googlecode.princeton-java-algorithms/algorithms -->
+        <dependency>
+            <groupId>com.googlecode.princeton-java-algorithms</groupId>
+            <artifactId>algorithms</artifactId>
+            <version>4.0.1</version>
+        </dependency>
+    </dependencies>
 
 </project>
