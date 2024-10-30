@@ -24,6 +24,14 @@ public class KdTree {
             right = null;
             depth = 1;
         }
+
+        public KdTreeNode(Point2D point, int depth) {
+            this.point = point;
+            this.depth = depth;
+            parent = null;
+            left = null;
+            right = null;
+        }
     }
 
     private KdTreeNode root;
@@ -45,40 +53,22 @@ public class KdTree {
     public void insert(Point2D p) {
         if (p == null) throw new IllegalArgumentException();
         if (this.contains(p)) return;
-        insert(p, root);
+        root = insert(root, p, 0);
     }
 
-    private KdTreeNode insert(Point2D p, KdTreeNode parent) {
-        if (parent == null) {
-            KdTreeNode newNode = new KdTreeNode(p);
-            this.root = newNode;
-            this.size++;
-            calculateNodeHeight(newNode);
-            return newNode;
-        } else if (parent.point.compareTo(p) > 0) {
-            if (parent.left == null) {
-                KdTreeNode newNode = new KdTreeNode(p);
-                newNode.parent = parent;
-                parent.left = newNode;
-                this.size++;
-                calculateNodeHeight(newNode);
-                return newNode;
-            } else {
-                return insert(p, parent.left);
-            }
-        } else if (parent.point.compareTo(p) < 0) {
-            if (parent.right == null) {
-                KdTreeNode newNode = new KdTreeNode(p);
-                newNode.parent = parent;
-                parent.right = newNode;
-                this.size++;
-                calculateNodeHeight(newNode);
-                return newNode;
-            } else {
-                return insert(p, parent.right);
-            }
+    private KdTreeNode insert(KdTreeNode node, Point2D p, int depth) {
+        if (node == null) {
+            size++;
+            return new KdTreeNode(p, depth);
         }
-        return null;
+
+        boolean isVertical = depth % 2 == 0;
+        if ((isVertical && p.x() < node.point.x()) || (!isVertical && p.y() < node.point.y())) {
+            node.left = insert(node.left, p, depth + 1);
+        } else {
+            node.right = insert(node.right, p, depth + 1);
+        }
+        return node;
     }
 
     private void calculateNodeHeight(KdTreeNode node) {
