@@ -127,27 +127,40 @@ public class KdTree {
     private Point2D nearest(KdTreeNode node, Point2D p, Point2D nearest, double nearestDistance) {
         if (node == null) return nearest;
 
-        double distance = p.distanceSquaredTo(node.point);
-        if (distance < nearestDistance) {
+        double currentDistance = p.distanceSquaredTo(node.point);
+        if (currentDistance < nearestDistance) {
             nearest = node.point;
-            nearestDistance = distance;
+            nearestDistance = currentDistance;
         }
 
+        // Determine axis (x or y) based on depth
         boolean isVertical = node.depth % 2 == 0;
-        KdTreeNode first = (isVertical && p.x() < node.point.x()) || (!isVertical && p.y() < node.point.y())
-                ? node.left : node.right;
-        KdTreeNode second = first == node.left ? node.right : node.left;
+        KdTreeNode first, second;
 
+        // Choose the branch to explore first
+        if ((isVertical && p.x() < node.point.x()) || (!isVertical && p.y() < node.point.y())) {
+            first = node.left;
+            second = node.right;
+        } else {
+            first = node.right;
+            second = node.left;
+        }
+
+        // Explore the first branch
         nearest = nearest(first, p, nearest, nearestDistance);
-        if (second != null) {
-            double axisDistance = isVertical ? Math.pow(p.x() - node.point.x(), 2) : Math.pow(p.y() - node.point.y(), 2);
-            if (axisDistance < nearestDistance) {
-                nearest = nearest(second, p, nearest, nearestDistance);
-            }
+        nearestDistance = p.distanceSquaredTo(nearest);
+
+        // Calculate axis-aligned distance to splitting plane
+        double axisDistance = isVertical ? Math.pow(p.x() - node.point.x(), 2) : Math.pow(p.y() - node.point.y(), 2);
+
+        // Only check the second branch if there’s potential for a closer point
+        if (axisDistance < nearestDistance) {
+            nearest = nearest(second, p, nearest, nearestDistance);
         }
 
         return nearest;
     }
+
 
     public static void main(String[] args) {
         KdTree kdTree = new KdTree();
