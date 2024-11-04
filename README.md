@@ -1,6 +1,6 @@
  # Princeton Practice Programming Assignment
 
-[![License](https://img.shields.io/github/license/matteo-campana/Princeton-Practice-Programming-Assignment)](LICENSE)
+[![License](https://img.shields.io/github/license/matteo-campana/Princeton-Practice-Programming-Assignment)](LICENSE.md)
 [![Coverage Status](https://img.shields.io/codecov/c/github/matteo-campana/Princeton-Practice-Programming-Assignment)](https://codecov.io/gh/matteo-campana/Princeton-Practice-Programming-Assignment)
 [![GitHub Issues](https://img.shields.io/github/issues/matteo-campana/Princeton-Practice-Programming-Assignment)](https://github.com/matteo-campana/Princeton-Practice-Programming-Assignment/issues)
 [![GitHub Forks](https://img.shields.io/github/forks/matteo-campana/Princeton-Practice-Programming-Assignment)](https://github.com/matteo-campana/Princeton-Practice-Programming-Assignment/network)
