@@ -1,4 +1,4 @@
-package edu.princeton.cs.module_2.interview_questions;
+package edu.princeton.cs.part_i.module_2.interview_questions;
 
 //<hr></hr> Social network connectivity
 //Given a social network containing ( n ) members and a log file containing ( m ) timestamps at which times pairs of members formed friendships,

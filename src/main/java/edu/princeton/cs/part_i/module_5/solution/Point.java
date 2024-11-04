@@ -1,4 +1,4 @@
-package edu.princeton.cs.module_5.solution;
+package edu.princeton.cs.part_i.module_5.solution;
 
 import java.util.Comparator;
 

@@ -1,4 +1,4 @@
-package edu.princeton.cs.module_3.programming_assignment;
+package edu.princeton.cs.part_i.module_3.programming_assignment;
 
 import edu.princeton.cs.algs4.StdOut;
 import edu.princeton.cs.algs4.StdRandom;

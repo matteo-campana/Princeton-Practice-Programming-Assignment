@@ -1,4 +1,4 @@
-package edu.princeton.cs.module_4;
+package edu.princeton.cs.part_i.module_4;
 
 import java.util.Arrays;
 import java.util.Objects;

@@ -1,4 +1,4 @@
-package edu.princeton.cs.module_3.interview_question;
+package edu.princeton.cs.part_i.module_3.interview_question;
 
 import java.util.Stack;
 

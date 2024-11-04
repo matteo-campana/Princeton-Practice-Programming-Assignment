@@ -1,4 +1,4 @@
-package edu.princeton.cs.part_i.interview_questions;
+package edu.princeton.cs.part_i.module_7.interview_questions;
 
 import java.util.ArrayList;
 import java.util.Arrays;

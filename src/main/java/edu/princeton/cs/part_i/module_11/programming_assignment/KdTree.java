@@ -1,4 +1,4 @@
-package edu.princeton.cs.part_i.programming_assignment;
+package edu.princeton.cs.part_i.module_11.programming_assignment;
 
 
 import edu.princeton.cs.algs4.Point2D;

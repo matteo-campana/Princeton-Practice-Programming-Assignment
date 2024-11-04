@@ -1,4 +1,4 @@
-package edu.princeton.cs.module_1;
+package edu.princeton.cs.part_i.module_1;
 
 //Using algs4.jar. Under construction. Write a program RandomWord.java that reads a sequence of words from standard input and
 // prints one of those words uniformly at random. Do not store the words in an array or list. Instead, use Knuth’s method:

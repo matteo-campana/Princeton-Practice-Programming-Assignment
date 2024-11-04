@@ -1,4 +1,4 @@
-package edu.princeton.cs.module_2.interview_questions;
+package edu.princeton.cs.part_i.module_2.interview_questions;
 
 public class UnionFindWithSpecificCanonicalElement {
     private final int[] parent;
