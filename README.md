@@ -6,6 +6,10 @@
 [![GitHub Forks](https://img.shields.io/github/forks/matteo-campana/Princeton-Practice-Programming-Assignment)](https://github.com/matteo-campana/Princeton-Practice-Programming-Assignment/network)
 [![GitHub Stars](https://img.shields.io/github/stars/matteo-campana/Princeton-Practice-Programming-Assignment)](https://github.com/matteo-campana/Princeton-Practice-Programming-Assignment/stargazers)
 
+<div align="center">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/d/d0/Princeton_seal.svg" alt="Princeton University">
+</div>
+
 ## Overview
 This project contains a series of programming assignments designed to practice and enhance your coding skills. These assignments are inspired by the coursework from Princeton University's Computer Science curriculum.
 
